@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repository;
@@ -38,8 +39,8 @@ public abstract class GenericRepository<T> where T : class
 
         public virtual async Task<IEnumerable<T>> GetAllAsync() => await GetAll();
         public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression) => await GetAll(expression);
-        // public virtual async Task<IEnumerable<T>> GetAllAsync(IParam param) => await GetAllPaginated(param);
-        // public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression, IParam param) => await GetAllPaginated(param, expression);
+        public virtual async Task<IEnumerable<T>> GetAllAsync(IParam param) => await GetAllPaginated(param);
+        public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression, IParam param) => await GetAllPaginated(param, expression);
 
     #endregion
 
@@ -47,15 +48,15 @@ public abstract class GenericRepository<T> where T : class
     #region pagination
 
         protected virtual bool PaginateExpression(T entity, string Search)=> true;
-        /* private async Task<IEnumerable<T>> GetAllPaginated(IParam param, Expression<Func<T, bool>> expression = null)
+        private async Task<IEnumerable<T>> GetAllPaginated(IParam param, Expression<Func<T, bool>> expression = null)
         {
             return (await GetAll(expression))
                     .Where(x => PaginateExpression(x,param.Search))
                     .Skip((param.PageIndex - 1) * param.PageSize)
                     .Take(param.PageSize)
                     .ToList();
-        } */
-        
+        }
+
     #endregion
     
 }
