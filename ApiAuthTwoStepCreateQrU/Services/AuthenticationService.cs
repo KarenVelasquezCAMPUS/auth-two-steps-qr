@@ -30,16 +30,16 @@ public class AuthenticationService : Domain.Interfaces.IAuthenticationService
         _ = int.TryParse(conf["JWTSettings:RefreshTokenTimeInHours"], out _refreshTokenTokenDuration);        
     }
 
-    public byte[] CreateQR(ref User u)
+    public byte[] CreateQR(ref User user)
     {        
-        if( u.Email == null)
+        if(user.Email == null)
         {
-            throw new ArgumentNullException(u.Email);
+            throw new ArgumentNullException(user.Email);
         }        
         var tsa = new TwoFactorAuth(_conf["JWTSettings:Issuer"],6,30,Algorithm.SHA256, new ImageChartsQrCodeProvider());
         string secret = tsa.CreateSecret(160);
-        u.TwoStepSecret = secret;
-        var QR = tsa.GetQrCodeImageAsDataUri(u.Email, u.TwoStepSecret); 
+        user.TwoStepSecret = secret;
+        var QR = tsa.GetQrCodeImageAsDataUri(user.Email, user.TwoStepSecret); 
         string UriQR = QR.Replace("data:image/png;base64,", "");
         return Convert.FromBase64String(UriQR);        
     }

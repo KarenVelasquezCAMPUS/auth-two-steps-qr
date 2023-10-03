@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(ApiAuthTwoStepCreateQrUContext))]
-    [Migration("20231003063926_InitialCreateMig")]
+    [Migration("20231003090018_InitialCreateMig")]
     partial class InitialCreateMig
     {
         /// <inheritdoc />
@@ -23,25 +23,37 @@ namespace Persistence.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("DateCreated")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar")
+                        .HasColumnName("datacreated");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar")
+                        .HasColumnName("email");
 
                     b.Property<string>("TwoStepSecret")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar")
+                        .HasColumnName("twostepsecret");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar")
+                        .HasColumnName("username");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("user", (string)null);
                 });
 #pragma warning restore 612, 618
         }

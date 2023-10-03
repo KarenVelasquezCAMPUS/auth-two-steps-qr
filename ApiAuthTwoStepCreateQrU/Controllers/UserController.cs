@@ -1,8 +1,7 @@
 using ApiAuthTwoStepCreateQrU.Dtos;
+using ApiAuthTwoStepCreateQrU.Services;
 using Domain.Entities;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiAuthTwoStepCreateQrU.Controllers;
@@ -23,16 +22,17 @@ public class UserController : BaseApiController
         _authenticationService = authenticationService;
     }
 
-    [HttpGet("QR/{id}")]
+    [HttpGet("imgqr/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]    
     public async Task<ActionResult> GetQR(long id)
     {        
-        try{
-            User u = await _unitOfWork.Users.FindFirst(p => p.UserId == id);
-            byte[] QR = _authenticationService.CreateQR(ref u);            
+        try
+        {
+            User user = await _unitOfWork.Users.FindFirst(p => p.UserId == id);
+            byte[] QR = _authenticationService.CreateQR(ref user);            
 
-            _unitOfWork.Users.Update(u);
+            _unitOfWork.Users.Update(user);
             await _unitOfWork.SaveChanges();
             return File(QR,"image/png");
         }
@@ -61,8 +61,8 @@ public class UserController : BaseApiController
             {
                 return Ok("authenticated, checked");
             }
-
             return Unauthorized();
+
         }
         catch (Exception ex)
         {
