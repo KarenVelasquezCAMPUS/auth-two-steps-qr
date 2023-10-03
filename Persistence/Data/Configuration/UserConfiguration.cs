@@ -29,9 +29,7 @@ namespace Persistence.Data.Configuration
 
             builder.Property(p => p.TwoStepSecret)
             .IsRequired()
-            .HasColumnName("twostepsecret")
-            .HasColumnType("varchar")
-            .HasMaxLength(30);
+            .HasColumnName("twostepsecret");
 
             builder.Property(p => p.DateCreated)
             .IsRequired()
