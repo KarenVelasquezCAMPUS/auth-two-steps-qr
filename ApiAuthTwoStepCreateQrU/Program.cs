@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 // ConexMySqlService
 builder.Services.AddDbContext<ApiAuthTwoStepCreateQrUContext>(options =>
 {
