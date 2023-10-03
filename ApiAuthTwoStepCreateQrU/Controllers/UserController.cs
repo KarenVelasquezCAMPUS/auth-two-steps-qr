@@ -2,22 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Interfaces;
 
 namespace ApiAuthTwoStepCreateQrU.Controllers;
 public class UserController : BaseApiController
 {
-    private readonly ILogger<UserController> _Logger;
-    //private readonly IUnitOfWork _UnitOfWork;
+    private readonly ILogger<UserController> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     //private readonly IAuthService _Auth;
     public UserController
     (
-        ILogger<UserController> logger //,
-        //IUnitOfWork unitOfWork,
+        ILogger<UserController> logger,
+        IUnitOfWork unitOfWork //,
         //IAuthService auth
     )
     {
-        _Logger = logger;
-        //_UnitOfWork = unitOfWork;
+        _logger = logger;
+        _unitOfWork = unitOfWork;
         //_Auth = auth;
     }
 
