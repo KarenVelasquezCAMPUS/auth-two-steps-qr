@@ -46,6 +46,6 @@ public class AuthenticationService : Domain.Interfaces.IAuthenticationService
 
     public bool VerifyCode(string secret, string code){        
         var tsa = new TwoFactorAuth(_conf["JWTSettings:Issuer"],6,30,Algorithm.SHA256);
-        return tsa.VerifyCode(secret, code);
+        return tsa.VerifyCode(secret, code, 1);
     }
 }
