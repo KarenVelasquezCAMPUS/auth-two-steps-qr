@@ -38,7 +38,7 @@ public class UserController : BaseApiController
         }
         catch (Exception ex){
             _logger.LogError(ex.Message);
-            return BadRequest("some wrong");
+            return BadRequest("error, some error occurred");
         }                        
     }
 
@@ -59,7 +59,7 @@ public class UserController : BaseApiController
 
             if(isVerified == true)
             {
-                return Ok("authenticated!!");
+                return Ok("authenticated, checked");
             }
 
             return Unauthorized();
@@ -67,7 +67,7 @@ public class UserController : BaseApiController
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return BadRequest("some wrong");
+            return BadRequest("error, some error occurred");
         }                        
     }
 }
