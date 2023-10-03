@@ -8,8 +8,7 @@ public abstract class GenericRepository<T> where T : class
     protected readonly DbSet<T> _entity;
     public GenericRepository(DbContext context)=>_entity = context.Set<T>();
 
-    #region CRUD
-    
+    // CRUD
         protected virtual async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression = null)
         {
             if (expression is not null){
@@ -32,20 +31,16 @@ public abstract class GenericRepository<T> where T : class
         public virtual void RemoveRange(IEnumerable<T> entities) => _entity.RemoveRange(entities);
         public virtual void Update(T entity) => _entity.Update(entity);
 
-    #endregion
 
-
-    #region GetAllAsync
+    // GetAllAsync
 
         public virtual async Task<IEnumerable<T>> GetAllAsync() => await GetAll();
         public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression) => await GetAll(expression);
         public virtual async Task<IEnumerable<T>> GetAllAsync(IParam param) => await GetAllPaginated(param);
         public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression, IParam param) => await GetAllPaginated(param, expression);
 
-    #endregion
 
-
-    #region pagination
+    // Paginacion
 
         protected virtual bool PaginateExpression(T entity, string Search)=> true;
         private async Task<IEnumerable<T>> GetAllPaginated(IParam param, Expression<Func<T, bool>> expression = null)
@@ -56,7 +51,5 @@ public abstract class GenericRepository<T> where T : class
                     .Take(param.PageSize)
                     .ToList();
         }
-
-    #endregion
     
 }
